@@ -2,78 +2,46 @@ import java.util.Scanner;
 
 public class PalindromeCheckerApp {
 
-    static final String APP_NAME = "Palindrome Checker App";
-    static final String APP_VERSION = "Version 1.0";
+    // Method to check palindrome using char array and two-pointer technique
+    public static boolean isPalindrome(String input) {
 
-    public static void main(String[] args) {
+        // Convert string to character array
+        char[] characters = input.toCharArray();
 
-        // UC1 – Welcome Message
-        System.out.println("        " + APP_NAME);
-        System.out.println("        " + APP_VERSION);
-        System.out.println("Welcome to the Palindrome Checker Application!");
-        System.out.println("-------------------------------------");
-
-        // UC2 – Hardcoded Palindrome
-        String word = "madam";
-        String reversed = "";
-
-        for (int i = word.length() - 1; i >= 0; i--) {
-            reversed = reversed + word.charAt(i);
-        }
-
-        if (word.equals(reversed)) {
-            System.out.println("UC2 Result: \"" + word + "\" is a Palindrome.");
-        } else {
-            System.out.println("UC2 Result: \"" + word + "\" is NOT a Palindrome.");
-        }
-
-        System.out.println("-------------------------------------");
-
-        // UC3 – Palindrome Using String Reverse
-        String original = "level";
-        String reverseString = "";
-
-        for (int i = original.length() - 1; i >= 0; i--) {
-            reverseString = reverseString + original.charAt(i);
-        }
-
-        if (original.equals(reverseString)) {
-            System.out.println("UC3 Result: \"" + original + "\" is a Palindrome.");
-        } else {
-            System.out.println("UC3 Result: \"" + original + "\" is NOT a Palindrome.");
-        }
-
-        System.out.println("-------------------------------------");
-
-        // UC4 – Character Array Based Palindrome Check
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("Enter a string for UC4 (char array method): ");
-        String userInput = scanner.nextLine();
-        char[] chars = userInput.toCharArray();
-
-        boolean isPalindrome = true;
+        // Initialize two pointers
         int start = 0;
-        int end = chars.length - 1;
+        int end = characters.length - 1;
 
+        // Compare characters from both ends
         while (start < end) {
-            if (chars[start] != chars[end]) {
-                isPalindrome = false;
-                break;
+
+            if (characters[start] != characters[end]) {
+                return false;
             }
+
             start++;
             end--;
         }
 
-        if (isPalindrome) {
-            System.out.println("UC4 Result: \"" + userInput + "\" is a Palindrome.");
+        return true;
+    }
+
+    public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("=== UC4: Character Array Based Palindrome Check ===");
+        System.out.print("Enter a string: ");
+        String input = scanner.nextLine();
+
+        boolean result = isPalindrome(input);
+
+        if (result) {
+            System.out.println("The given string is a Palindrome.");
         } else {
-            System.out.println("UC4 Result: \"" + userInput + "\" is NOT a Palindrome.");
+            System.out.println("The given string is NOT a Palindrome.");
         }
 
         scanner.close();
-
-        System.out.println("-------------------------------------");
-        System.out.println("Application Execution Completed.");
     }
 }
