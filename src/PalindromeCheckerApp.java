@@ -1,18 +1,29 @@
 import java.util.Scanner;
 
-public class PalindromeCheckerApp {
+// PalindromeChecker class encapsulates all palindrome logic
+class PalindromeChecker {
 
-    // Method to check palindrome
-    public static boolean isPalindrome(String input) {
-        // Normalize string: remove spaces and convert to lowercase
-        input = input.toLowerCase().replaceAll("\\s+", "");
+    private String input;
+
+    // Constructor to initialize input
+    public PalindromeChecker(String input) {
+        this.input = input;
+    }
+
+    // Method to check if the input is a palindrome
+    public boolean checkPalindrome() {
+        if (input == null || input.isEmpty()) {
+            return false;
+        }
+
+        // Normalize input: lowercase and remove spaces
+        String normalized = input.toLowerCase().replaceAll("\\s+", "");
 
         int start = 0;
-        int end = input.length() - 1;
+        int end = normalized.length() - 1;
 
-        // Compare characters from start and end
         while (start < end) {
-            if (input.charAt(start) != input.charAt(end)) {
+            if (normalized.charAt(start) != normalized.charAt(end)) {
                 return false;
             }
             start++;
@@ -21,15 +32,22 @@ public class PalindromeCheckerApp {
 
         return true;
     }
+}
+
+public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("===== Case-Insensitive & Space-Ignored Palindrome Checker =====");
+        System.out.println("===== Object-Oriented Palindrome Checker =====");
         System.out.print("Enter a string: ");
         String input = scanner.nextLine();
 
-        if (isPalindrome(input)) {
+        // Create PalindromeChecker object
+        PalindromeChecker checker = new PalindromeChecker(input);
+
+        // Use the class method to check palindrome
+        if (checker.checkPalindrome()) {
             System.out.println("Result: The given string is a Palindrome.");
         } else {
             System.out.println("Result: The given string is NOT a Palindrome.");
