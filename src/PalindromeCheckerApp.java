@@ -1,22 +1,45 @@
+import java.util.Scanner;
+import java.util.Stack;
 
 public class PalindromeCheckerApp {
 
-    // Application constants
-    static final String APP_NAME = "Palindrome Checker App";
-    static final String APP_VERSION = "Version 1.0";
+    // Method to check palindrome using Stack
+    public static boolean isPalindrome(String input) {
 
-    // Main method - Entry point of the application
+        Stack<Character> stack = new Stack<>();
+
+        // Push all characters into the stack
+        for (int i = 0; i < input.length(); i++) {
+            stack.push(input.charAt(i));
+        }
+
+        // Pop characters and compare with original string
+        for (int i = 0; i < input.length(); i++) {
+            char poppedChar = stack.pop();
+            if (input.charAt(i) != poppedChar) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public static void main(String[] args) {
 
-        // Welcome Message
-        System.out.println("===================================");
-        System.out.println("Welcome to " + APP_NAME);
-        System.out.println(APP_VERSION);
-        System.out.println("===================================");
-        System.out.println("This application checks whether a given string is a palindrome.");
-        System.out.println("Program initialized successfully.");
+        Scanner scanner = new Scanner(System.in);
 
-        // Program can proceed to next use case here
-        System.out.println("Ready to proceed to Palindrome Check...");
+        System.out.println("=== UC5: Stack-Based Palindrome Checker ===");
+        System.out.print("Enter a string: ");
+        String input = scanner.nextLine();
+
+        boolean result = isPalindrome(input);
+
+        if (result) {
+            System.out.println("The given string is a Palindrome.");
+        } else {
+            System.out.println("The given string is NOT a Palindrome.");
+        }
+
+        scanner.close();
     }
 }
