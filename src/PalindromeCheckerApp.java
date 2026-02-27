@@ -1,44 +1,98 @@
-import java.util.Deque;
-import java.util.LinkedList;
 import java.util.Scanner;
 
 public class PalindromeCheckerApp {
 
-    // Method to check palindrome using Deque
-    public static boolean isPalindrome(String input) {
+    // Node class for singly linked list
+    static class Node {
+        char data;
+        Node next;
 
-        // Convert to lowercase and remove spaces
-        input = input.toLowerCase().replaceAll("\\s+", "");
-
-        Deque<Character> deque = new LinkedList<>();
-
-        // Insert characters into deque
-        for (char ch : input.toCharArray()) {
-            deque.addLast(ch);
+        Node(char data) {
+            this.data = data;
+            this.next = null;
         }
+    }
 
-        // Compare front and rear characters
-        while (deque.size() > 1) {
-            char front = deque.removeFirst();
-            char rear = deque.removeLast();
+    // Method to create linked list from string
+    public static Node createLinkedList(String str) {
+        Node head = null;
+        Node tail = null;
 
-            if (front != rear) {
-                return false;
+        for (char ch : str.toCharArray()) {
+            Node newNode = new Node(ch);
+            if (head == null) {
+                head = newNode;
+                tail = newNode;
+            } else {
+                tail.next = newNode;
+                tail = newNode;
             }
         }
+        return head;
+    }
 
-        return true;
+    // Reverse linked list
+    public static Node reverseList(Node head) {
+        Node prev = null;
+        Node current = head;
+        while (current != null) {
+            Node nextNode = current.next;
+            current.next = prev;
+            prev = current;
+            current = nextNode;
+        }
+        return prev;
+    }
+
+    // Check if linked list is palindrome
+    public static boolean isPalindrome(Node head) {
+        if (head == null || head.next == null)
+            return true;
+
+        // Find middle using fast and slow pointers
+        Node slow = head;
+        Node fast = head;
+
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        // Reverse second half
+        Node secondHalf = reverseList(slow.next);
+        Node firstHalf = head;
+
+        // Compare halves
+        Node tempSecond = secondHalf;
+        boolean palindrome = true;
+        while (tempSecond != null) {
+            if (firstHalf.data != tempSecond.data) {
+                palindrome = false;
+                break;
+            }
+            firstHalf = firstHalf.next;
+            tempSecond = tempSecond.next;
+        }
+
+        // Optional: restore the list
+        slow.next = reverseList(secondHalf);
+
+        return palindrome;
     }
 
     public static void main(String[] args) {
-
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("===== Deque-Based Palindrome Checker =====");
+        System.out.println("===== Linked List Based Palindrome Checker =====");
         System.out.print("Enter a string: ");
         String input = scanner.nextLine();
 
-        if (isPalindrome(input)) {
+        // Preprocess: lowercase and remove spaces
+        input = input.toLowerCase().replaceAll("\\s+", "");
+
+        Node head = createLinkedList(input);
+
+        if (isPalindrome(head)) {
             System.out.println("Result: The given string is a Palindrome.");
         } else {
             System.out.println("Result: The given string is NOT a Palindrome.");
